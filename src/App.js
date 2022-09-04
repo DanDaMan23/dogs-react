@@ -3,6 +3,8 @@ import { AppBar } from "@mui/material"
 import { Container } from "@mui/system"
 import PetsIcon from "@mui/icons-material/Pets"
 
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+
 export default function App() {
   const {
     loading,
@@ -23,6 +25,15 @@ export default function App() {
           </h1>
         </Container>
       </AppBar>
+      <Container maxWidth='l'>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<>Home Page</>} />
+            <Route path='/dogs' element={<>Dogs Page</>} />
+            <Route path='/contactPage' element={<>Contact Page</>} />
+          </Routes>
+        </BrowserRouter>
+      </Container>
     </>
   )
 }
