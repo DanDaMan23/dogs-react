@@ -4,6 +4,7 @@ import { Container } from "@mui/system"
 import PetsIcon from "@mui/icons-material/Pets"
 
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import HomePageContextProvider from "./components/homePage/home-page.context"
 
 export default function App() {
   const {
@@ -28,7 +29,7 @@ export default function App() {
       <Container maxWidth='l'>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<>Home Page</>} />
+            <Route path='/' element={<HomePageContextProvider />} />
             <Route path='/dogs' element={<>Dogs Page</>} />
             <Route path='/contactPage' element={<>Contact Page</>} />
           </Routes>
