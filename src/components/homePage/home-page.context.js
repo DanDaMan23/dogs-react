@@ -8,7 +8,7 @@ export const HomePageContext = createContext({
 })
 
 export default function HomePageContextProvider() {
-  const [randomDogs, setRandomDogs] = useState({ data: [], error: null })
+  const [randomDogs, setRandomDogs] = useState({})
   const { get, response, error } = useFetch(
     "https://dog.ceo/api/breeds/image/random"
   )
@@ -16,16 +16,17 @@ export default function HomePageContextProvider() {
   const getRandomDogs = async (numberOfDogs) => {
     const initialGetDogs = await get(`/${numberOfDogs}`)
     if (response.ok) {
-      console.log(initialGetDogs)
       setRandomDogs((prevState) => ({ ...prevState, data: initialGetDogs }))
-    } else {
-      setRandomDogs((prevState) => ({ ...prevState, error }))
     }
   }
 
   return (
     <HomePageContext.Provider
-      value={{ data: randomDogs, getData: getRandomDogs }}
+      value={{
+        data: randomDogs,
+        getData: getRandomDogs,
+        error
+      }}
     >
       <HomePage />
     </HomePageContext.Provider>
