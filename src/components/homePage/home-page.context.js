@@ -1,33 +1,29 @@
-import { createContext, useState } from "react"
-import useFetch from "use-http"
+import { createContext, useReducer } from "react"
 import HomePage from "./home-page"
 
-export const HomePageContext = createContext({
-  data: [],
-  getData: () => {}
-})
+export const ACTION_TYPES = { SUCCESS: "SUCCESS", ERROR: "ERROR" }
+
+export const HomePageContext = createContext({})
 
 export default function HomePageContextProvider() {
-  const [randomDogs, setRandomDogs] = useState({})
-  const { get, response, error } = useFetch(
-    "https://dog.ceo/api/breeds/image/random"
-  )
+  const initialState = { data: null, error: null }
 
-  const getRandomDogs = async (numberOfDogs) => {
-    const initialGetDogs = await get(`/${numberOfDogs}`)
-    if (response.ok) {
-      setRandomDogs((prevState) => ({ ...prevState, data: initialGetDogs }))
+
+  const reducer = (state, { type, payload }) => {
+    switch (type) {
+      case "SUCCESS":
+        return { ...state, data: payload }
+      case "ERROR":
+        return { ...state, error: payload }
+      default:
+        throw new Error("Unknown Action")
     }
   }
 
+  const [state, dispatch] = useReducer(reducer, initialState)
+
   return (
-    <HomePageContext.Provider
-      value={{
-        data: randomDogs,
-        getData: getRandomDogs,
-        error
-      }}
-    >
+    <HomePageContext.Provider value={{ state, dispatch }}>
       <HomePage />
     </HomePageContext.Provider>
   )
