@@ -1,13 +1,11 @@
 import { createContext, useReducer } from "react"
 import HomePage from "./home-page"
 
-export const ACTION_TYPES = { SUCCESS: "SUCCESS", ERROR: "ERROR" }
-
 export const HomePageContext = createContext({})
 
 export default function HomePageContextProvider() {
+  const ACTION_TYPES = { SUCCESS: "SUCCESS", ERROR: "ERROR" }
   const initialState = { data: null, error: null }
-
 
   const reducer = (state, { type, payload }) => {
     switch (type) {
@@ -23,7 +21,7 @@ export default function HomePageContextProvider() {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
-    <HomePageContext.Provider value={{ state, dispatch }}>
+    <HomePageContext.Provider value={{ state, dispatch, ACTION_TYPES }}>
       <HomePage />
     </HomePageContext.Provider>
   )

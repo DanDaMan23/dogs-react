@@ -1,10 +1,14 @@
 import { ImageList, ImageListItem } from "@mui/material"
 import { useContext, useEffect } from "react"
 import useFetch from "use-http"
-import { ACTION_TYPES, HomePageContext } from "./home-page.context"
+import { HomePageContext } from "./home-page.context"
 
 export function useGetRandomDogs() {
-  const { state, dispatch } = useContext(HomePageContext)
+  const {
+    state,
+    dispatch,
+    ACTION_TYPES: { SUCCESS, ERROR }
+  } = useContext(HomePageContext)
 
   const { get, response, error } = useFetch(
     "https://dog.ceo/api/breeds/image/random"
@@ -14,14 +18,14 @@ export function useGetRandomDogs() {
     const getRandomDogs = async (numberOfDogs) => {
       const initialGetDogs = await get(`/${numberOfDogs}`)
       if (response.ok) {
-        dispatch({ type: ACTION_TYPES.SUCCESS, payload: initialGetDogs })
+        dispatch({ type: SUCCESS, payload: initialGetDogs })
       } else if (error) {
-        dispatch({ type: ACTION_TYPES.ERROR, payload: error })
+        dispatch({ type: ERROR, payload: error })
       }
     }
 
     getRandomDogs(4)
-  }, [dispatch, error, get, response.ok])
+  }, [ERROR, SUCCESS, dispatch, error, get, response.ok])
 
   return { state }
 }
